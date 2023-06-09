@@ -1,0 +1,27 @@
+{
+  "name": "prometheus.avado.dappnode.eth",
+  "version": "0.0.1",
+  "description": "A Prometheus container for AVADO",
+  "autoupdate": true,
+  "title": "Prometheus",
+  "type": "library",
+  "avatar": "/ipfs/QmYRmFCtdXvqq3drc6kBXxeWiiMatTfKVpVrmLX883cQbR",
+  "author": "sp",
+  "image": {
+    "volumes": [
+      "data:/prometheus/",
+      "/etc/timezone:/etc/timezone:ro",
+      "/etc/localtime:/etc/localtime:ro"
+    ]
+  },
+  "links": {
+    "UI": "http://prometheus.my.ava.do:9090"
+  },
+  "ui": {
+    "OnboardingWizard": {
+      "url": "http://prometheus.my.ava.do:9090",
+      "external": true
+    }
+  },
+  "license": "GPL-3.0"
+}

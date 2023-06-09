@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+  prometheus.avado.dappnode.eth:
+    build: ./build
+    image: 'prometheus.avado.dappnode.eth:0.0.1'
+    restart: always
+    volumes:
+      - 'data:/prometheus/'
+      - '/etc/timezone:/etc/timezone:ro'
+      - '/etc/localtime:/etc/localtime:ro'
+    ports:
+      - '9090:9090'
+volumes:
+  data: {}
