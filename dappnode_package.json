@@ -12,7 +12,8 @@
       "data:/prometheus/",
       "/etc/timezone:/etc/timezone:ro",
       "/etc/localtime:/etc/localtime:ro"
-    ]
+    ],
+    "restart": "always"
   },
   "links": {
     "UI": "http://prometheus.my.ava.do:9090"
