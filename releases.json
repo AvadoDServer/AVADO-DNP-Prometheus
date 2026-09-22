@@ -5,5 +5,12 @@
     "uploadedTo": {
       "http://80.208.229.228:5001": "Fri, 09 Jun 2023 19:10:52 GMT"
     }
+  },
+  "0.0.2": {
+    "hash": "/ipfs/QmasLzHA237QDLSn8tne8ofxEqpTuDjphfewNRGrq43ipR",
+    "type": "manifest",
+    "uploadedTo": {
+      "http://80.208.229.228:35001": "Tue, 22 Sep 2026 16:18:11 GMT"
+    }
   }
 }
