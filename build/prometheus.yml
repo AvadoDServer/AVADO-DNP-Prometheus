@@ -1,16 +1,130 @@
+# Prometheus configuration for AVADO.
+#
+# Every AVADO package is reachable on the AVADO network as
+# <package name without .avado/.dnp/.public/.dappnode.eth>.my.ava.do
+# Targets of packages that are not installed (or that do not expose metrics)
+# are simply shown as "down" on http://prometheus.my.ava.do:9090/targets.
+#
+# Every target carries a `client` and a `network` label.
+#
+# Prometheus 3 rejects scrapes whose Content-Type header is missing or unknown;
+# `fallback_scrape_protocol` makes it fall back to the classic text format for
+# client versions that do not send a proper header.
+
 global:
   scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 15s
+
 scrape_configs:
-  - job_name: "prometheus"
+  - job_name: prometheus
     static_configs:
-    - targets: ["prometheus.my.ava.do:9090"]
-  - job_name: 'node_exporter'
+      - targets: ["localhost:9090"]
+        labels: { client: prometheus, network: none }
+
+  # node-exporter.avado.dappnode.eth - host CPU, memory, disk, network
+  - job_name: node
     static_configs:
-      - targets: ['node-exporter.my.ava.do:9100']
-  - job_name: 'cadvisor'
+      - targets: ["node-exporter.my.ava.do:9100"]
+        labels: { client: node-exporter, network: none }
+
+  # Consensus clients -------------------------------------------------------
+
+  # prysm-beacon-chain-<network>.avado.dnp.dappnode.eth (--monitoring-host=0.0.0.0, default port 8080)
+  - job_name: prysm-beacon
+    fallback_scrape_protocol: PrometheusText0.0.4
     static_configs:
-      - targets: ['cadvisor.my.ava.do:8080']
-  - job_name: 'external_targets'
-    file_sd_configs:
-      - files:
-          - /prometheus/*.yml
+      - targets: ["prysm-beacon-chain-mainnet.my.ava.do:8080"]
+        labels: { client: prysm, network: mainnet }
+      - targets: ["prysm-beacon-chain-prater.my.ava.do:8080"]
+        labels: { client: prysm, network: prater }
+
+  # eth2validator.avado.dnp.dappnode.eth (Prysm validator, default monitoring port 8081)
+  - job_name: prysm-validator
+    fallback_scrape_protocol: PrometheusText0.0.4
+    static_configs:
+      - targets: ["eth2validator.my.ava.do:8081"]
+        labels: { client: prysm, network: mainnet }
+
+  # teku[-<network>].avado.dnp.dappnode.eth (metrics-port 8008)
+  - job_name: teku
+    fallback_scrape_protocol: PrometheusText0.0.4
+    static_configs:
+      - targets: ["teku.my.ava.do:8008"]
+        labels: { client: teku, network: mainnet }
+      - targets: ["teku-gnosis.my.ava.do:8008"]
+        labels: { client: teku, network: gnosis }
+      - targets: ["teku-holesky.my.ava.do:8008"]
+        labels: { client: teku, network: holesky }
+      - targets: ["teku-prater.my.ava.do:8008"]
+        labels: { client: teku, network: prater }
+
+  # nimbus[-<network>].avado.dnp.dappnode.eth (--metrics-port=8008)
+  - job_name: nimbus
+    fallback_scrape_protocol: PrometheusText0.0.4
+    static_configs:
+      - targets: ["nimbus.my.ava.do:8008"]
+        labels: { client: nimbus, network: mainnet }
+      - targets: ["nimbus-holesky.my.ava.do:8008"]
+        labels: { client: nimbus, network: holesky }
+      - targets: ["nimbus-prater.my.ava.do:8008"]
+        labels: { client: nimbus, network: prater }
+
+  # lighthouse[-<network>].avado.dnp.dappnode.eth (needs --metrics --metrics-address=0.0.0.0, port 5054)
+  - job_name: lighthouse
+    fallback_scrape_protocol: PrometheusText0.0.4
+    static_configs:
+      - targets: ["lighthouse.my.ava.do:5054"]
+        labels: { client: lighthouse, network: mainnet }
+      - targets: ["lighthouse-gnosis.my.ava.do:5054"]
+        labels: { client: lighthouse, network: gnosis }
+      - targets: ["lighthouse-holesky.my.ava.do:5054"]
+        labels: { client: lighthouse, network: holesky }
+      - targets: ["lighthouse-prater.my.ava.do:5054"]
+        labels: { client: lighthouse, network: prater }
+
+  # Execution clients -------------------------------------------------------
+
+  # ethchain-geth.public.dappnode.eth, <network>-geth.avado.dnp.dappnode.eth
+  # (needs --metrics --metrics.addr=0.0.0.0, port 6060)
+  - job_name: geth
+    fallback_scrape_protocol: PrometheusText0.0.4
+    metrics_path: /debug/metrics/prometheus
+    static_configs:
+      - targets: ["ethchain-geth.my.ava.do:6060"]
+        labels: { client: geth, network: mainnet }
+      - targets: ["holesky-geth.my.ava.do:6060"]
+        labels: { client: geth, network: holesky }
+      - targets: ["goerli-geth.my.ava.do:6060"]
+        labels: { client: geth, network: goerli }
+
+  # avado-dnp-nethermind.public.dappnode.eth (needs --Metrics.Enabled=true --Metrics.ExposePort=6060)
+  - job_name: nethermind
+    fallback_scrape_protocol: PrometheusText0.0.4
+    static_configs:
+      - targets: ["avado-dnp-nethermind.my.ava.do:6060"]
+        labels: { client: nethermind, network: mainnet }
+
+  # erigon.avado.dappnode.eth (--metrics --metrics.addr=0.0.0.0 --metrics.port=6060)
+  - job_name: erigon
+    fallback_scrape_protocol: PrometheusText0.0.4
+    metrics_path: /debug/metrics/prometheus
+    static_configs:
+      - targets: ["erigon.my.ava.do:6060"]
+        labels: { client: erigon, network: mainnet }
+
+  # Distributed validators --------------------------------------------------
+
+  # obol.avado.dappnode.eth (CHARON_MONITORING_ADDRESS=0.0.0.0:3620)
+  - job_name: charon
+    fallback_scrape_protocol: PrometheusText0.0.4
+    static_configs:
+      - targets: ["obol.my.ava.do:3620"]
+        labels: { client: charon, network: mainnet }
+
+  # ssv.avado.dappnode.eth (needs MetricsAPIPort: 15000 in the SSV node config)
+  - job_name: ssv
+    fallback_scrape_protocol: PrometheusText0.0.4
+    static_configs:
+      - targets: ["ssv.my.ava.do:15000"]
+        labels: { client: ssv, network: mainnet }

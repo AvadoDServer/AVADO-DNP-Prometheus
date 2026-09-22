@@ -1,3 +1,0 @@
-- job_name: 'charon'
-  static_configs:
-    - targets: ['obol.my.ava.do:3620']

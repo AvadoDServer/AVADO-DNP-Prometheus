@@ -1,7 +1,8 @@
 {
   "name": "prometheus.avado.dappnode.eth",
-  "version": "0.0.1",
-  "description": "A Prometheus container for AVADO",
+  "version": "0.0.2",
+  "upstream": "v3.14.0",
+  "description": "Prometheus collects the metrics of this AVADO (node exporter) and of its Ethereum clients (Prysm, Teku, Nimbus, Lighthouse, Geth, Nethermind, Erigon, Obol, SSV) for Grafana. Keeps RETENTION_DAYS days / RETENTION_SIZE of data.",
   "autoupdate": true,
   "title": "Prometheus",
   "type": "library",
@@ -12,6 +13,11 @@
       "data:/prometheus/",
       "/etc/timezone:/etc/timezone:ro",
       "/etc/localtime:/etc/localtime:ro"
+    ],
+    "ports": [],
+    "environment": [
+      "RETENTION_DAYS=30",
+      "RETENTION_SIZE=10GB"
     ],
     "restart": "always"
   },
