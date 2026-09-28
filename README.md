@@ -6,10 +6,12 @@
 - UI: http://prometheus.my.ava.do:9090 (targets: http://prometheus.my.ava.do:9090/targets).
   No ports are published on the host; the UI is only reachable from the AVADO network.
 - Scrape configuration: [build/prometheus.yml](build/prometheus.yml). It scrapes the
-  [node exporter](https://github.com/AvadoDServer/AVADO-DNP-Node-exporter) and the metrics
-  endpoints of the Ethereum clients that can be installed on an AVADO (Prysm, Teku, Nimbus,
-  Lighthouse, Geth, Nethermind, Erigon, Obol Charon, SSV). Every target is labelled with
-  `client` and `network`. Clients that are not installed show up as `down`.
+  [node exporter](https://github.com/AvadoDServer/AVADO-DNP-Node-exporter), the
+  [SMART disk stats](https://github.com/AvadoDServer/AVADO-DNP-Smartctl-exporter) package
+  (job `smartctl`, disk health of the AVADO's drives) and the metrics endpoints of the Ethereum
+  clients that can be installed on an AVADO (Prysm, Teku, Nimbus, Lighthouse, Geth, Nethermind,
+  Erigon, Obol Charon, SSV). Every target is labelled with `client` and `network`. Packages that
+  are not installed show up as `down`.
 
 ## Retention
 

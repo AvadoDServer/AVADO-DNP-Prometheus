@@ -1,8 +1,8 @@
 {
   "name": "prometheus.avado.dappnode.eth",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "upstream": "v3.14.0",
-  "description": "Prometheus collects the metrics of this AVADO (node exporter) and of its Ethereum clients (Prysm, Teku, Nimbus, Lighthouse, Geth, Nethermind, Erigon, Obol, SSV) for Grafana. Keeps RETENTION_DAYS days / RETENTION_SIZE of data.",
+  "description": "Prometheus collects the metrics of this AVADO (node exporter), its disk health (SMART disk stats) and its Ethereum clients (Prysm, Teku, Nimbus, Lighthouse, Geth, Nethermind, Erigon, Obol, SSV) for Grafana. Keeps RETENTION_DAYS days / RETENTION_SIZE of data.",
   "autoupdate": true,
   "title": "Prometheus",
   "type": "library",
