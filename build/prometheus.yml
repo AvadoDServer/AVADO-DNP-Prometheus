@@ -128,3 +128,9 @@ scrape_configs:
     static_configs:
       - targets: ["ssv.my.ava.do:15000"]
         labels: { client: ssv, network: mainnet }
+
+  # smartctl-exporter.avado.dappnode.eth - disk health (SMART / NVMe) of the AVADO's drives
+  - job_name: smartctl
+    static_configs:
+      - targets: ["smartctl-exporter.my.ava.do:9633"]
+        labels: { client: smartctl-exporter, network: none }
