@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 prom/prometheus:v3.15.0
+FROM --platform=linux/amd64 prom/prometheus:v3.15.1
 
 COPY prometheus.yml /etc/prometheus/prometheus.yml
 
